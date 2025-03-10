@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "husky install",
+    "format": "pretty-quick --staged"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -14,6 +16,8 @@
     "next": "15.2.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
     "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -22,6 +26,10 @@
     "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
+    "husky": "^8.0.3",
+    "prettier": "^3.5.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "pretty-quick": "^4.0.0",
     "@eslint/eslintrc": "^3"
   }
 }
