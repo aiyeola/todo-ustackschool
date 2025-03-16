@@ -64,26 +64,26 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
       <Card
         ref={setNodeRef}
         style={style}
-        className={`p-4 ${task.completed ? 'opacity-75' : ''}`}
+        className={`p-3 sm:p-4 ${task.completed ? 'opacity-75' : ''}`}
       >
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-2 sm:gap-4">
           <div
             {...attributes}
             {...listeners}
-            className="cursor-grab touch-none"
+            className="hidden cursor-grab touch-none sm:block"
           >
             <GripVertical className="h-5 w-5 text-gray-400" />
           </div>
 
-          <div className="flex-1">
-            <div className="mb-2 flex items-center gap-2">
+          <div className="min-w-0 flex-1">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
               <Checkbox
                 checked={task.completed}
                 onCheckedChange={toggleComplete}
                 id={`task-${task.id}`}
               />
               <h3
-                className={`text-lg font-semibold ${
+                className={`truncate text-base font-semibold sm:text-lg ${
                   task.completed ? 'text-gray-500 line-through' : ''
                 }`}
               >
@@ -91,28 +91,32 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
               </h3>
               <Badge
                 variant="secondary"
-                className={priorityColors[task.priority]}
+                className={`${priorityColors[task.priority]} text-xs sm:text-sm`}
               >
                 {task.priority}
               </Badge>
             </div>
 
-            <p className="mb-2 text-gray-600 dark:text-gray-300">
+            <p className="mb-2 line-clamp-2 text-sm text-gray-600 sm:line-clamp-none sm:text-base dark:text-gray-300">
               {task.description}
             </p>
 
-            <div className="flex items-center gap-4 text-sm text-gray-500">
-              <span>Due: {format(new Date(task.dueDate), 'PPP')}</span>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 sm:gap-4 sm:text-sm">
+              <span className="whitespace-nowrap">
+                Due: {format(new Date(task.dueDate), 'PPP')}
+              </span>
 
               {task.videoUrl && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowVideo(!showVideo)}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs sm:text-sm"
                 >
-                  <Youtube className="h-4 w-4" />
-                  {showVideo ? 'Hide Video' : 'Show Video'}
+                  <Youtube className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">
+                    {showVideo ? 'Hide Video' : 'Show Video'}
+                  </span>
                 </Button>
               )}
 
@@ -120,21 +124,21 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowPayment(!showPayment)}
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 text-xs sm:text-sm"
               >
-                <CreditCard className="h-4 w-4" />
-                Payment
+                <CreditCard className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Payment</span>
               </Button>
             </div>
 
             {showVideo && task.videoUrl && (
-              <div className="mt-4">
+              <div className="mt-3 w-full sm:mt-4">
                 <VideoPlayer url={task.videoUrl} />
               </div>
             )}
 
             {showPayment && (
-              <div className="mt-4">
+              <div className="mt-3 sm:mt-4">
                 <PaymentButton
                   taskId={task.id}
                   amount={task.paymentAmount || 0}
@@ -144,7 +148,7 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
             )}
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-1 sm:gap-2">
             {!task.completed && (
               <Button
                 variant="ghost"
@@ -152,16 +156,18 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
                 onClick={() => {
                   setIsFormOpen(true);
                 }}
+                className="h-8 w-8 sm:h-9 sm:w-9"
               >
-                <Edit className="h-4 w-4" />
+                <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             )}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => onDelete(task.id)}
+              className="h-8 w-8 sm:h-9 sm:w-9"
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </div>
         </div>

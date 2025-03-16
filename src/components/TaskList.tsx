@@ -13,7 +13,7 @@ export default function TaskList({ tasks, onUpdate, onDelete }: TaskListProps) {
   const sortedTasks = [...tasks].sort((a, b) => a.order - b.order);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {sortedTasks.map((task) => (
         <TaskCard
           key={task.id}
@@ -23,8 +23,8 @@ export default function TaskList({ tasks, onUpdate, onDelete }: TaskListProps) {
         />
       ))}
       {tasks.length === 0 && (
-        <div className="py-12 text-center">
-          <p className="text-gray-500 dark:text-gray-400">
+        <div className="py-8 text-center sm:py-12">
+          <p className="text-sm text-gray-500 sm:text-base dark:text-gray-400">
             No tasks yet. Add your first task to get started!
           </p>
         </div>

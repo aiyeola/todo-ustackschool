@@ -60,10 +60,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen">
       <div className="mx-auto max-w-4xl p-6">
         <div className="mb-8 flex items-center justify-between">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             To-Do List App
           </h1>
           <Button
@@ -87,13 +87,13 @@ export default function Home() {
             />
           </SortableContext>
         </DndContext>
-
-        <TaskForm
-          isOpen={isFormOpen}
-          onClose={() => setIsFormOpen(false)}
-          onSubmit={addTask}
-        />
       </div>
+
+      <TaskForm
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        onSubmit={addTask}
+      />
     </div>
   );
 }
