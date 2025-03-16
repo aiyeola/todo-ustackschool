@@ -120,15 +120,17 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
                 </Button>
               )}
 
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowPayment(!showPayment)}
-                className="flex items-center gap-1 text-xs sm:text-sm"
-              >
-                <CreditCard className="h-3 w-3 sm:h-4 sm:w-4" />
-                <span className="hidden sm:inline">Payment</span>
-              </Button>
+              {Boolean(task.paymentAmount) && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowPayment(!showPayment)}
+                  className="flex items-center gap-1 text-xs sm:text-sm"
+                >
+                  <CreditCard className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Payment</span>
+                </Button>
+              )}
             </div>
 
             {showVideo && task.videoUrl && (
