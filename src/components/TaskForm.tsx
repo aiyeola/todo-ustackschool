@@ -28,6 +28,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Task } from '@/lib/types';
+import { useEffect } from 'react';
 
 const taskSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -53,7 +54,7 @@ export default function TaskForm({
 }: TaskFormProps) {
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
-    defaultValues: initialData || {
+    defaultValues: {
       title: '',
       description: '',
       dueDate: new Date().toISOString().split('T')[0],
@@ -62,6 +63,14 @@ export default function TaskForm({
       paymentAmount: 0,
     },
   });
+
+  useEffect(() => {
+    if (initialData) {
+      form.reset({
+        ...initialData,
+      });
+    }
+  }, [initialData]);
 
   const handleSubmit = (values: z.infer<typeof taskSchema>) => {
     onSubmit({
@@ -144,7 +153,7 @@ export default function TaskForm({
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="w-full">
                       <SelectTrigger>
                         <SelectValue placeholder="Select priority" />
                       </SelectTrigger>
@@ -186,6 +195,7 @@ export default function TaskForm({
                   <FormControl>
                     <Input
                       type="number"
+                      inputMode="numeric"
                       min="0"
                       step="0.01"
                       placeholder="0.00"

@@ -49,7 +49,7 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
   };
 
   return (
-    <>
+    <div key={JSON.stringify(task)}>
       <Card
         ref={setNodeRef}
         style={style}
@@ -162,6 +162,6 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
         onSubmit={updateTask}
         initialData={task}
       />
-    </>
+    </div>
   );
 }
