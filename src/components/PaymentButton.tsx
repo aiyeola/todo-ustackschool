@@ -1,7 +1,8 @@
 'use client';
 
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
+import { formatNumber } from '@/lib/use-currency';
 
 interface PaymentButtonProps {
   taskId: string;
@@ -18,7 +19,7 @@ export default function PaymentButton({
     public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY!,
     tx_ref: Date.now().toString(),
     amount,
-    currency: 'USD',
+    currency: 'NGN',
     payment_options: 'card,mobilemoney,ussd',
     customer: {
       email: 'user@example.com',
@@ -28,7 +29,7 @@ export default function PaymentButton({
     customizations: {
       title: 'Task Payment',
       description: `Payment for task ${taskId}`,
-      logo: 'https://example.com/logo.png',
+      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
     },
   };
 
@@ -39,7 +40,7 @@ export default function PaymentButton({
       onClick={() => {
         handleFlutterPayment({
           callback: (response) => {
-            if (response.status === 'successful') {
+            if (response.status === 'completed') {
               onSuccess();
             }
             closePaymentModal();
@@ -49,7 +50,7 @@ export default function PaymentButton({
       }}
       disabled={amount <= 0}
     >
-      Pay ${amount.toFixed(2)}
+      Pay {formatNumber(amount)}
     </Button>
   );
 }

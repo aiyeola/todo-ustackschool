@@ -13,6 +13,7 @@ import { GripVertical, Trash2, Edit, Youtube, CreditCard } from 'lucide-react';
 import VideoPlayer from '@/components/VideoPlayer';
 import PaymentButton from '@/components/PaymentButton';
 import TaskForm from '@/components/TaskForm';
+import { toast } from 'sonner';
 
 interface TaskCardProps {
   task: Task;
@@ -51,6 +52,11 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
   const updateTask = (task: Task) => {
     onUpdate(task);
     setIsFormOpen(false);
+  };
+
+  const handlePaymentSuccess = () => {
+    setShowPayment(false);
+    toast.success('Payment successful');
   };
 
   return (
@@ -132,7 +138,7 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
                 <PaymentButton
                   taskId={task.id}
                   amount={task.paymentAmount || 0}
-                  onSuccess={() => setShowPayment(false)}
+                  onSuccess={handlePaymentSuccess}
                 />
               </div>
             )}
