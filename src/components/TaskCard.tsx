@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Task } from '@/lib/types';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -30,6 +30,11 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
   const [showVideo, setShowVideo] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  useEffect(() => {
+    setShowVideo(false);
+    setShowPayment(false);
+  }, [JSON.stringify(task)]);
 
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: task.id });
@@ -91,7 +96,7 @@ export default function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
             </p>
 
             <div className="flex items-center gap-4 text-sm text-gray-500">
-              <span>Due: {format(new Date(task.dueDate), 'MMM d, yyyy')}</span>
+              <span>Due: {format(new Date(task.dueDate), 'PPP')}</span>
 
               {task.videoUrl && (
                 <Button

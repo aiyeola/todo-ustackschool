@@ -29,11 +29,26 @@ import {
 } from '@/components/ui/form';
 import { Task } from '@/lib/types';
 import { useEffect } from 'react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
 
 const taskSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
-  dueDate: z.string().min(1, 'Due date is required'),
+  dueDate: z
+    .date({
+      required_error: 'Due date is required',
+    })
+    .refine((date) => date >= new Date(), {
+      message: 'Due date cannot be in the past',
+    }),
   priority: z.enum(['low', 'medium', 'high']),
   videoUrl: z.string().url().optional().or(z.literal('')),
   paymentAmount: z.number().min(0).optional(),
@@ -57,7 +72,7 @@ export default function TaskForm({
     defaultValues: {
       title: '',
       description: '',
-      dueDate: new Date().toISOString().split('T')[0],
+      dueDate: undefined,
       priority: 'medium',
       videoUrl: '',
       paymentAmount: 0,
@@ -68,6 +83,9 @@ export default function TaskForm({
     if (initialData) {
       form.reset({
         ...initialData,
+        dueDate: initialData.dueDate
+          ? new Date(initialData.dueDate)
+          : undefined,
       });
     }
   }, [initialData]);
@@ -133,11 +151,37 @@ export default function TaskForm({
               control={form.control}
               name="dueDate"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex w-full flex-col">
                   <FormLabel>Due Date</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={'outline'}
+                          className={cn(
+                            'pl-3 text-left font-normal',
+                            !field.value && 'text-muted-foreground',
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, 'PPP')
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}
